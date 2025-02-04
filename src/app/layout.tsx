@@ -9,11 +9,6 @@ import { useSelector } from "@/store/hooks";
 import { AppState } from "@/store/store";
 import { Provider } from "react-redux";
 import NextTopLoader from 'nextjs-toploader';
-
-
-// import NextNProgress from "nextjs-progressbar";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import "@/app/api/index";
 import "@/utils/i18n";
 import { NextAppDirEmotionCacheProvider } from "@/utils/theme/EmotionCache";
@@ -21,23 +16,19 @@ import "react-quill/dist/quill.snow.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const theme = ThemeSettings();
-
   const customizer = useSelector((state: AppState) => state.customizer);
-
   return (
     <>
       <NextTopLoader color="#5D87FF" />
       <NextAppDirEmotionCacheProvider options={{ key: 'modernize' }}>
-      <ThemeProvider theme={theme}>
-        <RTL direction={customizer.activeDir}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          {children}
-        </RTL>
-      </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <RTL direction={customizer.activeDir}>
+            <CssBaseline />
+            {children}
+          </RTL>
+        </ThemeProvider>
       </NextAppDirEmotionCacheProvider>
     </>
   );
@@ -48,30 +39,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [loading, setLoading] = React.useState(false);
-  React.useEffect(() => {
-    setTimeout(() => setLoading(true), 3000);
-  }, []);
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <Provider store={store}>
-          {loading ? (
-            // eslint-disable-next-line react/no-children-prop
-            <MyApp children={children} />
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100vh",
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          )}
+          <MyApp children={children} />
         </Provider>
       </body>
     </html>
